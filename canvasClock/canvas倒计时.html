@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<canvas id="canvas" width="1024" height="768" style="border: 1px solid #aaa;display: block;margin:50px auto">
+		 
+	</canvas>
+	<!-- 练习 -->
+
+	<!-- 注：( X , Y , 半径 , 起始位置 , 结束位置 , 是否逆时针) -->
+	 <!-- context.arc(300,300,200,0,0.5*Math.PI,true); -->
+
+
+<!-- 	<script>
+		window.onload = function(){
+			var canvas = document.getElementById('canvas');
+	
+			canvas.width = 1024;
+			canvas.height = 768;
+
+			if(canvas.getContext('2d')){
+                var context = canvas.getContext('2d');
+			}else{
+				alert('当前浏览器不支持canvas，请更换浏览器后再试')
+			}
+		//直线
+			// context.beginPath();
+			// context.moveTo(100,100);
+			// context.lineTo(700,700);
+			// context.lineTo(100,700);
+			// context.lineTo(100,100);
+			// context.closePath();
+
+			// context.lineWidth = 5;
+			// context.strokeStyle = "red";
+			// context.stroke();
+
+
+			// context.beginPath();
+			// context.moveTo(200,100);
+			// context.lineTo(700,600);
+			// context.closePath();
+			// context.strokeStyle = "black";
+			// context.stroke();
+
+		//弧线
+
+				// context.lineWidth = 5;
+				// context.strokeStyle ="#005588";
+				// context.arc(300,300,200,0,0.5*Math.PI,true);
+				// context.stroke();
+				// 
+
+		// 一点点变成圆 很很多很多圆,顺时针和逆时针，闭合路径和不闭合路径
+				context.lineWidth = 5;
+				context.strokeStyle = "#005588";
+				for (var i = 0; i < 10; i++) {
+					context.beginPath();
+					//不一定要和closePath 同时出现，
+					context.arc(50 + i*100,50,40,0,2*Math.PI*(i+1)/10);
+					context.closePath();
+					context.stroke();
+				}
+				for (var i = 0; i < 10; i++) {
+					context.beginPath();
+					context.arc(50 + i*100,150,40,0,2*Math.PI*(i+1)/10);
+					context.stroke();
+				}
+				for (var i = 0; i < 10; i++) {
+					context.beginPath();
+					context.arc(50 + i*100,250,40,0,2*Math.PI*(i+1)/10,true);
+					context.closePath();
+					context.stroke();
+				}
+				for (var i = 0; i < 10; i++) {
+					context.beginPath();
+					context.arc(50 + i*100,350,40,0,2*Math.PI*(i+1)/10,true);
+					context.stroke();
+				}
+
+		//闭合路径对context的填充没有影响，并且填充的颜色可以覆盖
+				context.fillStyle ="#004455";
+				for (var i = 0; i < 10; i++) {
+
+					context.beginPath();
+					context.arc(50 + i*100,450,40,0,2*Math.PI*(i+1)/10,true);
+					context.closePath();
+					context.stroke();
+					context.fill()
+				}
+
+
+
+				context.fillStyle ="#005588";
+				for (var i = 0; i < 10; i++) {
+					context.beginPath();
+					context.arc(50 + i*100,550,40,0,2*Math.PI*(i+1)/10,true);
+					context.stroke();
+					context.fill();
+				}
+
+		}
+	</script> -->
+	<script>
+		var digit =
+			[
+				[
+					[0,0,1,1,1,0,0],
+					[0,1,1,0,1,1,0],
+					[0,1,1,0,1,1,0],
+					[0,1,1,0,1,1,0],
+					[0,1,1,0,1,1,0],
+					[0,1,1,0,1,1,0],
+					[0,1,1,0,1,1,0],
+					[0,1,1,0,1,1,0],
+					[0,1,1,0,1,1,0],
+					[0,0,1,1,1,0,0]
+				],
+				// 0
+
+				[
+					[0,0,0,1,1,0,0],
+					[0,1,1,1,1,0,0],
+					[0,0,0,1,1,0,0],
+					[0,0,0,1,1,0,0],
+					[0,0,0,1,1,0,0],
+					[0,0,0,1,1,0,0],
+					[0,0,0,1,1,0,0],
+					[0,0,0,1,1,0,0],
+					[0,0,0,1,1,0,0],
+					[1,1,1,1,1,1,1]
+				],
+				// 1
+
+				[
+					[0,1,1,1,1,1,0],
+					[1,1,0,0,0,1,1],
+					[0,0,0,0,0,1,1],
+					[0,0,0,0,1,1,0],
+					[0,0,0,1,1,0,0],
+					[0,0,1,1,0,0,0],
+					[0,1,1,0,0,0,0],
+					[1,1,0,0,0,0,0],
+					[1,1,0,0,0,0,0],
+					[1,1,1,1,1,1,1]
+				],
+				// 2
+				[
+					[0,1,1,1,1,1,1],
+					[1,1,0,0,0,1,1],
+					[0,0,0,0,1,1,0],
+					[0,0,0,1,1,0,0],
+					[0,0,1,1,1,0,0],
+					[0,0,0,0,1,1,0],
+					[0,0,0,0,1,1,1],
+					[0,0,0,0,0,1,1],
+					[1,1,0,0,0,1,1],
+					[0,1,1,1,1,1,0]
+				],
+				// 3
+				[
+					[0,0,0,0,1,1,0],
+					[0,0,0,1,1,1,0],
+					[0,0,1,1,1,1,0],
+					[0,1,1,0,1,1,0],
+					[1,1,0,0,1,1,0],
+					[1,1,1,1,1,1,1],
+					[0,0,0,0,1,1,0],
+					[0,0,0,0,1,1,0],
+					[0,0,0,0,1,1,0],
+					[0,0,0,1,1,1,1]
+				],
+				// 4
+				[ 
+					[1,1,1,1,1,1,1],
+					[1,1,0,0,0,0,0],
+					[1,1,0,0,0,0,0],
+					[0,1,1,1,1,1,0],
+					[0,0,0,0,0,1,1],
+					[0,0,0,0,0,1,1],
+					[0,0,0,0,0,1,1],
+					[0,0,0,0,0,1,1],
+					[1,1,0,0,0,1,1],
+					[0,1,1,1,1,1,0]
+				],
+				// 5
+				[ 
+					[0,0,0,0,1,1,0],
+					[0,0,0,1,1,0,0],
+					[0,0,1,1,0,0,0],
+					[0,1,1,0,0,0,0],
+					[1,1,0,0,0,0,0],
+					[1,1,0,1,1,1,0],
+					[1,1,0,0,0,1,1],
+					[1,1,0,0,0,1,1],
+					[1,1,0,0,0,1,1],
+					[0,1,1,1,1,1,0]
+				],
+				// 6
+				[ 
+					[1,1,1,1,1,1,1],
+					[1,1,0,0,0,1,1],
+					[0,0,0,0,0,1,1],
+					[0,0,0,1,1,0,0],
+					[0,0,1,1,0,0,0],
+					[0,0,1,1,0,0,0],
+					[0,0,1,1,0,0,0],
+					[0,0,1,1,0,0,0],
+					[0,0,1,1,0,0,0],
+					[0,0,1,1,0,0,0]
+				],
+				// 7
+				[ 
+					[0,1,1,1,1,1,0],
+					[1,1,0,0,0,1,1],
+					[1,1,0,0,0,1,1],
+					[1,1,0,0,0,1,1],
+					[0,1,1,1,1,1,0],
+					[1,1,0,0,0,1,1],
+					[1,1,0,0,0,1,1],
+					[1,1,0,0,0,1,1],
+					[1,1,0,0,0,1,1],
+					[0,1,1,1,1,1,0]
+				],
+				// 8
+				[ 
+					
+					[0,1,1,1,1,1,0],
+					[1,1,0,0,0,1,1],
+					[1,1,0,0,0,1,1],
+					[1,1,0,0,0,1,1],
+					[0,1,1,1,0,1,1],
+					[0,0,0,0,0,1,1],
+					[0,0,0,0,0,1,1],
+					[0,0,0,0,1,1,0],
+					[0,0,0,1,1,0,0],
+					[0,1,1,0,0,0,0],
+				],
+				// 9
+				
+				[
+					[0,0,0,0],
+					[0,0,0,0],
+					[0,1,1,0],
+					[0,1,1,0],
+					[0,0,0,0],
+					[0,0,0,0],
+					[0,1,1,0],
+					[0,1,1,0],
+					[0,0,0,0],
+					[0,0,0,0],
+
+				] 
+				// :
+			]
+	</script>
+
+	<script>
+		var WINDOW_WDITH = 1024;
+		var WINDOW_HEIGHT = 768;
+		var RADIUS = 8;
+		var MARGIN_TOP = 60;
+		var MARGIN_LEFT = 30;
+
+		const endTime = new Date("2016/8/6,12:45:45");
+
+		var balls = [];
+		const colors = ["#33B5E5","#0099CC","#AA66CC","#9933CC","#99CC00","669900","#FFBB33","#FF8800","#FF4444","#CC0000"];
+
+		window.onload = function(){
+
+			var canvas = document.getElementById("canvas");
+			var context = canvas.getContext('2d');
+
+			context.width =  WINDOW_WDITH;
+			context.height = WINDOW_HEIGHT;
+
+			curShowTimeSeconds = getCurrentShowTimeSeconds();
+
+			setInterval(
+				function(){
+					render(context);
+					update();
+				}
+				,50);
+
+		}
+
+		function getCurrentShowTimeSeconds(){
+			var curTime = new Date();
+			var ret = endTime.getTime() - curTime.getTime();
+			ret = Math.round(ret/1000);
+			return ret >= 0? ret:0;
+		}
+
+		function update(){
+			var nextShowTimeSeconds =  getCurrentShowTimeSeconds();
+			var hours = parseInt(nextShowTimeSeconds / 3600);
+			var minutes =parseInt((nextShowTimeSeconds - hours * 3600)/60);
+			var seconds =nextShowTimeSeconds % 60;
+
+			var curHours = parseInt(curShowTimeSeconds / 3600);
+			var curMinutes =parseInt((curShowTimeSeconds - hours * 3600)/60);
+			var curSeconds =curShowTimeSeconds % 60;
+
+			if(curSeconds != seconds){
+				if(parseInt(curHours/10) != parseInt(hours/10)){
+					addBalls(MARGIN_LEFT + 0, MARGIN_TOP ,parseInt(curHours/10));
+				}
+				if(parseInt(curHours%10) != parseInt(hours%10)){
+					addBalls(MARGIN_LEFT + 15*(RADIUS + 1), MARGIN_TOP ,parseInt(curHours/10));
+				}
+				if(parseInt(curMinutes/10) != parseInt(minutes/10)){
+					addBalls(MARGIN_LEFT + 35*(RADIUS + 1), MARGIN_TOP ,parseInt(minutes%10));
+				}
+				if(parseInt(curMinutes%10) != parseInt(minutes%10)){
+					addBalls(MARGIN_LEFT + 54*(RADIUS + 1), MARGIN_TOP ,parseInt(minutes/10));
+				}
+				if(parseInt(curSeconds/10) != parseInt(seconds/10)){
+					addBalls(MARGIN_LEFT + 78*(RADIUS + 1), MARGIN_TOP ,parseInt(curHours%10));
+				}
+				if(parseInt(curSeconds%10) != parseInt(seconds%10)){
+					addBalls(MARGIN_LEFT + 93*(RADIUS + 1), MARGIN_TOP ,parseInt(curHours/10));
+				}
+
+				curShowTimeSeconds = nextShowTimeSeconds;
+			}
+
+			updateBalls();
+		}
+		function updateBalls(){
+			 for(var i = 0;i<balls.length;i++){
+			 	balls[i].x +=balls[i].vx;	
+			 	balls[i].y +=balls[i].vy;			 
+			 	balls[i].vy +=balls[i].g;	
+
+			 	if( balls[i].y >= WINDOW_HEIGHT - RADIUS){
+			 		balls[i].y = WINDOW_HEIGHT - RADIUS;
+			 		balls[i].vy  = -balls[i].vy * 0.75;
+			 	}		 
+			}
+		}
+
+
+		function addBalls(x,y,num){
+			for(var i = 0; i < digit[num].length;i++){
+				for(var j = 0; j < digit[num][i].length;j++){
+					if(digit[num][i][j] == 1){
+						var aBall = {
+							x:x + j*2*(RADIUS + 1)+(RADIUS + 1),
+							// x:100,
+							y:y + i*2*(RADIUS + 1)+(RADIUS + 1),
+							// y:50,
+							g:1.5+Math.random(),
+							// 1.5 + 0~1之间的随机数
+							vx: Math.pow(-1 ,Math.ceil(Math.random()*1000))*4,
+							// pow 返回-1的n次方，n为0~1000之间的任意一个整数
+							// 简而言之是 返回1或-1
+							// 最后将结果X4 得到一个X轴上的速度
+							vy:-5,
+							color:colors[Math.floor(Math.random()*colors.length)]
+
+						}
+
+						balls.push(aBall);
+
+					}
+
+				}
+			}
+
+		}
+
+		function render(cxt){
+
+			// clearRect函数对一个矩形空间内的图像进行一次刷新操作
+			cxt.clearRect(0,0,WINDOW_WDITH,WINDOW_HEIGHT);
+
+			var hours = parseInt(curShowTimeSeconds / 3600);
+			var minutes =parseInt((curShowTimeSeconds - hours * 3600)/60);
+			var seconds =curShowTimeSeconds % 60;
+
+			//画出时钟（坐标x,坐标y,需要绘制的数字）
+			renderDigit(MARGIN_LEFT,MARGIN_TOP,parseInt(hours/10), cxt);
+			renderDigit(MARGIN_LEFT + 15*(RADIUS + 1),MARGIN_TOP , parseInt(hours%10),cxt);
+			renderDigit(MARGIN_LEFT + 30*(RADIUS + 1),MARGIN_TOP , 10,cxt);
+			renderDigit(MARGIN_LEFT + 39*(RADIUS + 1),MARGIN_TOP , parseInt(minutes/10),cxt);
+			renderDigit(MARGIN_LEFT + 54*(RADIUS + 1),MARGIN_TOP , parseInt(minutes%10),cxt);
+			renderDigit(MARGIN_LEFT + 69*(RADIUS + 1),MARGIN_TOP , 10,cxt);
+			renderDigit(MARGIN_LEFT + 78*(RADIUS + 1),MARGIN_TOP , parseInt(seconds/10),cxt);
+			renderDigit(MARGIN_LEFT + 93*(RADIUS + 1),MARGIN_TOP , parseInt(seconds%10),cxt);
+
+			for(var i = 0; i < balls.length; i++){
+				cxt.fillStyle = balls[i].color;
+				cxt.beginPath();
+				cxt.arc(balls[i].x , balls[i].y , RADIUS , 0 , 2*Math.PI ,true);
+				cxt.closePath();
+				cxt.fill();
+			}
+
+		}
+
+
+		function renderDigit(x,y,num,cxt){
+			cxt.fillStyle = "rgb(0,102,153)";
+
+			for(var i=0; i < digit[num].length;i++){
+				for(var j = 0; j < digit[num][i].length;j++){
+					if(digit[num][i][j] == 1){
+						cxt.beginPath();
+						cxt.arc(x+j*2*(RADIUS+1)+(RADIUS+1),y+i*2*(RADIUS+1)+(RADIUS+1),RADIUS,0,2*Math.PI);
+						cxt.closePath();
+
+						cxt.fill();
+					}
+				}
+			}
+		}
+
+	</script>
+
+<!-- 	<script>
+				// （位置X ，位置Y ，小球的半径 ，加速度 ，x上的速度 ， y上的速度 ，小球颜色）
+		var ball = {x:512 , y:100 , r:10 , g:2 , vx:-4 , vy:-3 ,color:"#005588"};
+		window.onload = function(){
+			var canvas = document.getElementById("canvas");
+
+			canvas.width = 1026;
+			canvas.height = 768;
+
+			var context = canvas.getContext("2d");
+
+			setInterval(
+				function(){
+					render(context);
+					update();
+				}
+				, 50)
+
+		}
+
+
+		function update(){
+
+			ball.x += ball.vx;
+			ball.y += ball.vy;
+			ball.vy += ball.g;
+
+			if(ball.y >= 768 - ball.r){
+				ball.y = 768 - ball.r;
+				ball.vy = - ball.vy*0.6;
+			}
+
+			if(ball.x <= 0 + ball.r){
+				ball.x = 0+ball.r;
+			}
+		}
+
+		function render(cxt){
+			cxt.clearRect(0 , 0 , cxt.canvas.width , cxt.canvas.height );
+			cxt.fillStyle = ball.color;
+			cxt.beginPath();
+			cxt.arc(ball.x , ball.y , ball.r , 0 ,2*Math.PI);
+			cxt.closePath();
+
+			cxt.fill();
+		}
+
+
+	</script> -->
+</body>
+</html>
