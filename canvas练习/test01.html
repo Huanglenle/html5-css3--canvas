@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CANVAS练习</title>
+</head>
+<body>
+	<canvas id="canvas" width = "800px" height=" 500px" style = "margin: 0 5%; border:1px solid #e4e4e4; "></canvas>
+	<script>
+		var canvas = document.getElementById("canvas");
+		var context = canvas.getContext("2d");
+
+	// 》》
+		context.width = 800;
+		context.height = 500;
+
+		context.lineWidth = 1;
+
+		context.beginPath();
+		context.lineTo(50,50);
+		context.lineTo(150,150);
+		context.lineTo(50,250);
+		context.strokeStyle = "green";
+		context.stroke();
+
+		context.beginPath();
+		context.lineTo(100,50);
+		context.lineTo(200,150);
+		context.lineTo(100,250);
+		context.strokeStyle = "red";
+		context.stroke();
+
+		context.beginPath();
+		context.lineTo(150,50);
+		context.lineTo(250,150);
+		context.lineTo(150,250);
+		context.strokeStyle = "blue";
+		context.stroke();
+
+
+	// 箭头
+
+		context.lineWidth = 3;
+		context.beginPath();
+		context.lineTo(50,300);
+		context.lineTo(100,300);
+		context.lineTo(120,300);
+		context.lineTo(120,275);
+		context.lineTo(170,310);
+		context.lineTo(120,355);
+		context.lineTo(120,330);
+		context.lineTo(100,330);
+		context.lineTo(50,330);
+		context.closePath();
+		context.strokeStyle =  "blue";
+		context.fillStyle = "red";
+		context.fill();
+		context.stroke();
+
+	// 矩形
+		square(3,300,50,50,70,"red","blue");
+		function square(lineWidth,x,y,width,height,fillStyle,strokeStyle){
+			context.lineWidth = lineWidth;
+			context.beginPath();
+			// context.lineTo(x,y);
+			// context.lineTo(x+width,y);
+			// context.lineTo(x+width,y+height);
+			// context.lineTo(x,y+height);
+
+			// API  直接绘制矩形
+			context.rect(x,y,width,height);
+			context.closePath();
+			context.fillStyle = fillStyle;
+			context.strokeStyle = strokeStyle;
+			context.fill();
+			context.stroke();
+		}
+
+		// API  直接绘制填充/绘画好的矩形
+		// context.fillRect(x,y,width,height);
+		// context.strokeRect(x,y,width,height)
+
+
+
+	//三角形
+		triangle(3,400,50,30,40,"red","blue");
+		function triangle(lineWidth,x,y,width,height,fillStyle,strokeStyle){
+			context.lineWidth = lineWidth;
+			context.beginPath();
+			context.lineTo(x,y);
+			context.lineTo(x-width,y+height);
+			context.lineTo(x+width,y+height);
+			context.closePath();
+			context.fillStyle = fillStyle;
+			context.strokeStyle = strokeStyle;
+			context.fill();
+			context.stroke();
+		}
+
+	// 圆
+	circle(480,50,35,0,2,false,"red","blue");
+	function circle(x,y,r,begin,end,antic,fillStyle,strokeStyle){
+		context.beginPath();
+		context.arc(x,y,r,begin*Math.PI,end*Math.PI,antic,fillStyle,strokeStyle)
+
+		context.fillStyle = fillStyle;
+		context.strokeStyle = strokeStyle;
+		context.fill();
+		context.stroke();
+	}
+
+	</script>
+</body>
+</html>

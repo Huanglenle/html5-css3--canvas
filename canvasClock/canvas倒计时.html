@@ -5,7 +5,7 @@
 	<title>Document</title>
 </head>
 <body>
-	<canvas id="canvas" width="1024" height="768" style="border: 1px solid #aaa;display: block;margin:50px auto">
+	<canvas id="canvas" width="1024" height="700" style="display: block;margin:50px auto">
 		 
 	</canvas>
 	<!-- 练习 -->
@@ -19,7 +19,7 @@
 			var canvas = document.getElementById('canvas');
 	
 			canvas.width = 1024;
-			canvas.height = 768;
+			canvas.height = 700;
 
 			if(canvas.getContext('2d')){
                 var context = canvas.getContext('2d');
@@ -108,16 +108,16 @@
 		var digit =
 			[
 				[
-					[0,0,1,1,1,0,0],
-					[0,1,1,0,1,1,0],
-					[0,1,1,0,1,1,0],
-					[0,1,1,0,1,1,0],
-					[0,1,1,0,1,1,0],
-					[0,1,1,0,1,1,0],
-					[0,1,1,0,1,1,0],
-					[0,1,1,0,1,1,0],
-					[0,1,1,0,1,1,0],
-					[0,0,1,1,1,0,0]
+					[0,1,1,1,1,1,0],
+					[1,1,0,0,0,1,1],
+					[1,1,0,0,0,1,1],
+					[1,1,0,0,0,1,1],
+					[1,1,0,0,0,1,1],
+					[1,1,0,0,0,1,1],
+					[1,1,0,0,0,1,1],
+					[1,1,0,0,0,1,1],
+					[1,1,0,0,0,1,1],
+					[0,1,1,1,1,1,0]
 				],
 				// 0
 
@@ -260,24 +260,32 @@
 
 	<script>
 		var WINDOW_WDITH = 1024;
-		var WINDOW_HEIGHT = 768;
+		var WINDOW_HEIGHT = 700;
 		var RADIUS = 8;
 		var MARGIN_TOP = 60;
 		var MARGIN_LEFT = 30;
 
-		const endTime = new Date("2016/8/6,12:45:45");
+		// 定义活动结束时间
+		// const endTime = new Date("2016/8/6,12:45:45");
+		// 距离当前时间的一个小时之后
+		// *1000   --->
+		var endTime = new Date();
+		endTime.setTime(endTime.getTime() + 3600*1000);
 
+		//用于小球的存放以及小球的颜色定义
 		var balls = [];
 		const colors = ["#33B5E5","#0099CC","#AA66CC","#9933CC","#99CC00","669900","#FFBB33","#FF8800","#FF4444","#CC0000"];
 
 		window.onload = function(){
 
+			// 定义画布
 			var canvas = document.getElementById("canvas");
 			var context = canvas.getContext('2d');
 
 			context.width =  WINDOW_WDITH;
 			context.height = WINDOW_HEIGHT;
 
+			// 获取活动剩余时间
 			curShowTimeSeconds = getCurrentShowTimeSeconds();
 
 			setInterval(
@@ -289,23 +297,33 @@
 
 		}
 
+
+		//计算活动剩余时间
 		function getCurrentShowTimeSeconds(){
 			var curTime = new Date();
+			//结束时间减去当前时间
 			var ret = endTime.getTime() - curTime.getTime();
 			ret = Math.round(ret/1000);
+			//计时器
+			// var ret = curTime.getHours()*3600 +　curTime.getMinutes()*60 + curTime.getSeconds();
 			return ret >= 0? ret:0;
 		}
 
+
 		function update(){
+			// 下一秒 下一分 ，，，
 			var nextShowTimeSeconds =  getCurrentShowTimeSeconds();
 			var hours = parseInt(nextShowTimeSeconds / 3600);
 			var minutes =parseInt((nextShowTimeSeconds - hours * 3600)/60);
 			var seconds =nextShowTimeSeconds % 60;
 
+			// 这分这秒
 			var curHours = parseInt(curShowTimeSeconds / 3600);
 			var curMinutes =parseInt((curShowTimeSeconds - hours * 3600)/60);
 			var curSeconds =curShowTimeSeconds % 60;
 
+
+			// 时间发生变化，给每个数字添加小球
 			if(curSeconds != seconds){
 				if(parseInt(curHours/10) != parseInt(hours/10)){
 					addBalls(MARGIN_LEFT + 0, MARGIN_TOP ,parseInt(curHours/10));
@@ -325,10 +343,11 @@
 				if(parseInt(curSeconds%10) != parseInt(seconds%10)){
 					addBalls(MARGIN_LEFT + 93*(RADIUS + 1), MARGIN_TOP ,parseInt(curHours/10));
 				}
-
+				// 改变画布中的数值
 				curShowTimeSeconds = nextShowTimeSeconds;
 			}
 
+			// 更新全部小球的状态
 			updateBalls();
 		}
 		function updateBalls(){
@@ -339,10 +358,23 @@
 
 			 	if( balls[i].y >= WINDOW_HEIGHT - RADIUS){
 			 		balls[i].y = WINDOW_HEIGHT - RADIUS;
-			 		balls[i].vy  = -balls[i].vy * 0.75;
+			 		balls[i].vy  = -balls[i].vy * 0.6;
 			 	}		 
 			}
+
 		}
+
+
+		//对性能进行优化，防止小球的堆积
+			var cnt = 0;
+			for(var i = 0;i<balls.length;i++){
+				if(balls[i].x + RADIUS > 0 && balls[i].x - RADIUS < WINDOW_WDITH){
+					balls[cnt++] = balls[i];
+				}2
+				while(balls.length > Math.min(200,cnt)){
+					balls.pop();
+				}
+			}
 
 
 		function addBalls(x,y,num){
@@ -393,6 +425,7 @@
 			renderDigit(MARGIN_LEFT + 78*(RADIUS + 1),MARGIN_TOP , parseInt(seconds/10),cxt);
 			renderDigit(MARGIN_LEFT + 93*(RADIUS + 1),MARGIN_TOP , parseInt(seconds%10),cxt);
 
+   			// 画小球
 			for(var i = 0; i < balls.length; i++){
 				cxt.fillStyle = balls[i].color;
 				cxt.beginPath();
@@ -401,9 +434,9 @@
 				cxt.fill();
 			}
 
-		}
+		}	
 
-
+		// 画时钟
 		function renderDigit(x,y,num,cxt){
 			cxt.fillStyle = "rgb(0,102,153)";
 
@@ -429,7 +462,7 @@
 			var canvas = document.getElementById("canvas");
 
 			canvas.width = 1026;
-			canvas.height = 768;
+			canvas.height = 700;
 
 			var context = canvas.getContext("2d");
 
@@ -449,8 +482,8 @@
 			ball.y += ball.vy;
 			ball.vy += ball.g;
 
-			if(ball.y >= 768 - ball.r){
-				ball.y = 768 - ball.r;
+			if(ball.y >= 700 - ball.r){
+				ball.y = 700 - ball.r;
 				ball.vy = - ball.vy*0.6;
 			}
 

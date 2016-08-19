@@ -1,0 +1,71 @@
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+	</head>
+	<body>
+		<canvas id = "canvas" width="1900" height="900" style = "border:1px solid #e4e4e4;">
+			
+		</canvas>
+		<script>
+			var now = new Date();
+			var a = now.getDay();
+			console.log(a);
+		</script>
+		<script>
+		window.onload = function(){
+			var canvas = document.getElementById("canvas");
+			var context = canvas.getContext("2d");
+
+			context.width = 800;
+			context.height = 800;
+			
+			context.fillStyle = "black";
+			context.fillRect(0,0,canvas.width,canvas.height);
+
+			context.lineJoin = "miter";
+
+			// 内角和外角相交的长度超过10，显示成bevel
+			// context.miterLimit = 10;
+
+
+			// 折角
+			// context.lineJoin = "bevel";
+
+			// 圆角
+			// context.lineJoin = "round";
+
+			for(var i = 0;i<200;i++){
+				var outR =  Math.random()*10 + 10;
+				var oX = Math.random()*canvas.width;
+				var oY = Math.random()*canvas.height;
+				var deg = Math.random()*360;
+				
+				star(context,outR/2.0,outR,oX,oY,deg);
+			}
+
+
+		}
+
+			function star(cxt,r,R,x,y,rot){
+				cxt.beginPath();
+				for(var i = 0; i < 5; i++ ){
+					cxt.lineTo(Math.cos((18 +72*i-rot)/180*Math.PI) * R + x,
+							- Math.sin((18 + 72*i-rot)/180*Math.PI) * R + y);
+					cxt.lineTo(Math.cos((54+72*i-rot)/180*Math.PI) * r + x,
+							- Math.sin((54+72*i-rot)/180*Math.PI) * r + y);
+				}
+				cxt.closePath();
+				cxt.lineWidth = 3;
+				cxt.lineJoin = "round";
+				cxt.fillStyle = "#fb3";
+				cxt.strokeStyle = "#fb5";
+				cxt.fill();
+				cxt.stroke();
+			
+
+			}
+		</script>
+	</body>
+	</html>
