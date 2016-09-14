@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		html,body{
+			width:100%;
+			float: left;
+		}
+		#someWorks{
+			width:84%;
+			margin: 0 8%;
+			padding: 20px;
+			height: auto;
+			float: left;
+		}
+		.works{
+			transform: rotate(45deg);
+			width:158px ;
+			height: 158px;
+			overflow: hidden;
+			float: left;
+			position: relative;
+			margin-right:10px;
+			margin-top: 5px;
+		}
+		.works img{
+			transform: rotate(-45deg);
+			position: absolute;
+			width: 158px;
+			height: 158px;
+		}
+		.worksList{
+			float: left;
+			margin: 0 auto;
+		}
+		.wl2{
+			margin-left: -113px;
+   			width: calc(100% + 175px);
+		}
+		.works p{
+			position: absolute;
+			transform: rotate(-45deg);
+			width: 80%;
+			padding: 0 10%;
+			text-align: center;
+			right: -30px;
+			height: 100px;
+			bottom: -15px;
+			line-height: 30px;
+			font-size:14px;
+			background-color:rgba(255,255,255,0.8);
+			display: none;
+		}
+		.worksTitle{
+			float: left;
+			padding-top: 49px;
+		}
+	</style>
+	<script src="jquery-1.7.2.min.js"></script>
+</head>
+<body>
+	<div id="someWorks">
+		<div class="worksList">
+			<div class="works">
+				<img src="worksImg/140U0LBN0-644P.jpg" alt="">
+				<p>香港天使国际化妆品有限公司</p>
+			</div>
+			<div class="works">
+				<img src="worksImg/140U0LW0SF-955W.jpg" alt="">
+				<p>《Let's blink 我唱我闪亮》—blink冰力克</p>
+			</div>
+			<div class="works">
+				<img src="worksImg/140U0LD333F-T933.jpg" alt="">
+				<p>欧卓汽车DVD导航</p>
+			</div>
+			<div class="works">
+				<img src="worksImg/140U0LR00440-23045.jpg" alt="">
+				<p>深圳市捷旅自行车</p>
+			</div>
+			<div class="works">
+				<img src="worksImg/140U0LHH640-29604.jpg" alt="">
+				<p>万利达教育电子</p>
+			</div>
+		</div>
+		<div class="worksList wl2">
+			<div class="works">
+				<img src="worksImg/140U0Lb42410-J143.jpg" alt="">
+				<p>新力文具</p>
+			</div>
+			<div class="works">
+				<img src="worksImg/140U0M002UP-c506.jpg" alt="">
+				<p>深圳市拓璞家具设计有限公司</p>
+			</div>
+			<div class="worksTitle">
+				<img src="worksImg/case_a.jpg" alt="">
+			</div>
+			<div class="works">
+				<img src="worksImg/140U0L6303640-23147.jpg" alt="">
+				<p>汽车养护品生产专家</p>
+			</div>
+			<div class="works">
+				<img src="worksImg/140U0LJ3OF-4R32.jpg" alt="">
+				<p>深圳市普罗巴克科技有限公司</p>
+			</div>
+		</div>
+		<div class="worksList">
+			<div class="works">
+				<img src="worksImg/140U0LO2120-109B3.jpg" alt="">
+				<p>帕尔多斯户外运动摄像机</p>
+			</div>
+			<div class="works">
+				<img src="worksImg/140U0LS53230-4b38.jpg" alt="">
+				<p>仙路珠宝</p>
+			</div>
+			<div class="works">
+				<img src="worksImg/140U0LM53220-W3O.jpg" alt="">
+				<p>迅捷兴</p>
+			</div>
+			<div class="works">
+				<img src="worksImg/140U0L93Y630-26116.jpg" alt="">
+				<p>北电丰崎</p>
+			</div>
+			<div class="works">
+				<img src="worksImg/140U0LY3b40-11Q54.jpg" alt="">
+				<p>Nice May</p>
+			</div>
+		</div>
+	</div>
+	<script>
+		var worksWord = $('.works p');
+		$('.works').each(function(index){
+			$(this).hover(function(){
+				worksWord.eq(index).fadeIn(200);
+			},function(){
+				worksWord.eq(index).fadeOut(200);
+			})
+
+		})	
+	</script>
+</body>
+</html>

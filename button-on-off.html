@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.openOne{width: 100px;height: 50px;border-radius: 25px;position: relative;background: rgba(0,184,0,0.8); transition: all .3s ease-in-out;}
+			.openOne span{line-height: 50px;color: #fff;padding-left: 15px;font-family: "微软雅黑";font-size: 14px;}
+			.openTwo{width: 50px;height: 50px;border-radius: 25px;position: absolute;box-shadow: 0px 2px 4px rgba(0,0,0,0.4);background: #fff;top: 0px;left: 50px;cursor: pointer;transition: left .3s ease-in-out;}
+			.box.active .openOne{box-shadow: 0px 0px 4px rgba(0,0,0,0.4);background: #fff;}
+			.box.active .openTwo{left: 0px;}
+			.box.active .openOne span{color: #666;padding-left: 55px;}
+		</style>
+		<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+		$(function(){
+			var bl = true;
+			$('.box').click(function(){
+				$('.box').toggleClass('active');
+				if(bl==true){
+					$('.openOne span').text('开启');
+					bl = false;
+				}else{
+					$('.openOne span').text('关闭');
+					bl  = true;
+				}
+			});
+			
+		})
+		</script>
+	</head>
+	<body>
+		<div class="box">
+			
+			<div class="openOne">
+				<span>关闭</span>
+				<div class="openTwo"></div>
+			</div>
+		</div>
+	</body>
+</html>

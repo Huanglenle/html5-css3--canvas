@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>drawer</title>
+</head>
+<body>
+	<canvas id="container" width="1900" height="900" style= "background:#666"></canvas>
+	<!-- <script src="jquery-1.7.2.min.js"></script> -->
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script>
+		var container = document.getElementById('container');
+		var context  = container.getContext('2d');
+
+		var paint = false;//判断是否需要绘画
+		var mouseX = 0,mouseY = 0,nowX = 0,nowY = 0;//存储坐标记录
+
+		var position = {
+			reset:function(actionX,actionY,goalX,goalY){//坐标替换
+				paint = true;
+				var order = "" +actionX+ "=" + goalX + "," + actionY + "="  + goalY;
+				eval(order);
+				console.log(order);
+			},
+			init:function(){//坐标清零
+				console.log("init");
+				paint = false;
+				mouseX = 0;
+				mouseY = 0;
+				nowX = 0;
+				nowY = 0;
+			}
+		}
+
+		var canvas = {
+			init:function(){  //canvas初始化
+				context.strokeStyle = "blue";
+				context.strokeRect(0,0,300,200)
+			},
+			draw:function(lastX,lastY,nowX,nowY){ 	//canvas划线
+				context.strokeStyle = "yellow";
+				context.lineWidth = 2;
+				context.beginPath();
+				context.moveTo(lastX,lastY);
+				context.lineTo(nowX,nowY);
+				context.stroke();
+				position.reset('mouseX','mouseY',nowX,nowY);
+			},
+			redraw:function(){	//canvas重绘
+				position.init();
+			}, 
+			// returnData:function(){	//canvas导出数据流
+			// 	socket.emit('startConnect',container.toDataURL());
+			// }
+		}
+		$('#container').mousedown(function(e){
+			position.reset('mouseX','mouseY',e.pageX-this.offsetLeft,e.pageY-this.offsetTop);
+			console.log(mouseX + ":" + mouseY);
+		})
+		$('#container').mousemove(function(e){
+			if(paint){
+				console.log(mouseX + ":" + mouseY);
+				position.reset('nowX','nowY',e.pageX-this.offsetLeft,e.pageY-this.offsetTop);
+				canvas.draw(mouseX,mouseY,nowX,nowY);
+			}
+		})
+		$("#container").mouseup(function(e){
+			if(paint){
+				position.init();
+				// canvas.returnData();
+			}
+		})
+		$("#container").mouseleave(function(e){
+			if(paint){
+				position.init();
+			}
+		})
+
+	</script>
+</body>
+</html>
